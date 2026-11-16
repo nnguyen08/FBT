@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: tv
+      POSTGRES_PASSWORD: tv
+      POSTGRES_DB: transfer_value
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tv -d transfer_value"]
+      interval: 5s
+      retries: 10
+
+  # One-shot refresh job:  docker compose run --rm refresh
+  refresh:
+    build: .
+    profiles: ["jobs"]
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://tv:tv@db:5432/transfer_value
+      KAGGLE_USERNAME: ${KAGGLE_USERNAME:-}
+      KAGGLE_KEY: ${KAGGLE_KEY:-}
+    volumes:
+      - ./data:/app/data
+      - ./reports:/app/reports
+
+volumes:
+  pgdata:
