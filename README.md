@@ -4,7 +4,7 @@ Flags football transfers and players as over- or undervalued relative to their l
 This repo currently contains the **data pipeline**: an idempotent weekly refresh that loads the
 Kaggle Transfermarkt dataset into Postgres and reports how well it covers what the models need.
 
-## Quick start
+## Start
 
 ```bash
 cp .env.example .env              # add Kaggle credentials (kaggle.com/settings -> API)
