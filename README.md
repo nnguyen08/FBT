@@ -79,15 +79,6 @@ different numbers of matches played stay comparable.
 Later, wrap `pipeline.run.main` in a Dagster job for retries, run history and alerts. The
 pipeline functions don't change, only the scheduler does.
 
-## Tests
-
-Tests run the whole pipeline against a real Postgres using small generated CSVs:
-
-```bash
-TEST_DATABASE_URL=postgresql://tv:tv@localhost:5432/scratch pytest -q
-```
-
-They **drop the public and stg schemas**, so point them at a scratch database, never your real one.
 
 ## Design notes and known limits
 
